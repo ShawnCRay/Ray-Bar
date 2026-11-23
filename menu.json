@@ -105,24 +105,24 @@
       "items": [
         {
           "id": "x3n4lgmk",
-          "name": "Cabernet",
-          "description": "Full-bodied red, salvaged from a cellar",
+          "name": "Red",
+          "description": "",
           "price": "9",
           "available": true,
           "featured": false
         },
         {
           "id": "6ip7sqrb",
-          "name": "Sauvignon Blanc",
-          "description": "Crisp white, kept cold",
+          "name": "White",
+          "description": "",
           "price": "9",
           "available": true,
           "featured": false
         },
         {
           "id": "r1b6x4wz",
-          "name": "Prosecco",
-          "description": "Dry Italian bubbles",
+          "name": "Pink",
+          "description": "",
           "price": "10",
           "available": true,
           "featured": false
@@ -132,15 +132,31 @@
     {
       "id": "sample-zero-proof",
       "title": "Zero Proof",
-      "note": "Zero rads, zero proof",
+      "note": "Zero rads, zero proof, zero fun",
       "style": "caution",
       "visible": true,
       "items": [
         {
           "id": "4vzxmdjs",
-          "name": "Ginger Mule",
-          "description": "Ginger beer, lime, mint",
+          "name": "Pepsi",
+          "description": "Sugary Water",
           "price": "4",
+          "available": true,
+          "featured": false
+        },
+        {
+          "id": "zqcyig5b",
+          "name": "Chery Pepsi",
+          "description": "Sugary water with cherry",
+          "price": "",
+          "available": true,
+          "featured": false
+        },
+        {
+          "id": "ms7nrh3v",
+          "name": "Coke",
+          "description": "Bitter sugary water",
+          "price": "",
           "available": true,
           "featured": false
         },
@@ -155,5 +171,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-11-23T23:35:17.128Z"
+  "updatedAt": "2026-11-23T23:36:51.581Z"
 }
