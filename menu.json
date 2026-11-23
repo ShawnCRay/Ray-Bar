@@ -74,7 +74,7 @@
           "id": "gilpj498",
           "name": "Four Roses",
           "description": "Mostly Whiskey",
-          "price": "6",
+          "price": "",
           "available": true,
           "featured": false
         },
@@ -82,7 +82,7 @@
           "id": "847rp43z",
           "name": "Hendrick's",
           "description": "Gin, we think",
-          "price": "5",
+          "price": "",
           "available": true,
           "featured": false
         },
@@ -90,7 +90,7 @@
           "id": "e0vxg07h",
           "name": "Tito's",
           "description": "It's Vodka",
-          "price": "6",
+          "price": "",
           "available": true,
           "featured": false
         }
@@ -155,5 +155,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-11-23T23:34:51.515Z"
+  "updatedAt": "2026-11-23T23:35:17.128Z"
 }
