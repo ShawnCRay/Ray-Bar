@@ -24,14 +24,23 @@
       <span class="brand-sub">Menu editor</span>
     </div>
     <div class="topbar-actions">
-      <span id="status" class="status" role="status" data-state="saved">Saved</span>
-      <a class="btn primary" href="index.html">Show the sign</a>
+      <span id="status" class="status" role="status" data-state="pending">Checking…</span>
+      <a class="btn" href="index.html"><span class="long">Show the sign</span><span class="short">Sign</span></a>
+      <button type="button" class="btn primary" id="publish">Publish</button>
     </div>
   </header>
 
   <div id="storage-warning" class="banner" hidden>
     This browser is blocking storage (often Private Browsing), so changes will not be kept.
     Open the editor in a normal Safari tab or from the Home Screen app.
+  </div>
+
+  <div id="sync-banner" class="banner notice" hidden>
+    <p>The sign was changed from another device, and this device also has edits that aren't published. Which one do you want to keep working on?</p>
+    <div class="button-row">
+      <button type="button" class="btn primary" id="use-sign">Load what's on the sign</button>
+      <button type="button" class="btn" id="keep-draft">Keep my edits</button>
+    </div>
   </div>
 
   <main class="layout">
@@ -46,10 +55,33 @@
       <div id="preview-stage" class="preview-stage">
         <iframe id="preview-frame" src="index.html?preview=1" title="Live preview of the sign" tabindex="-1"></iframe>
       </div>
-      <p class="hint">Changes show up on the sign right away. Press and hold the sign on the iPad to get back here.</p>
+      <p class="hint">The preview shows your edits as you make them. Tap <strong>Publish</strong> to put them on the sign.</p>
     </section>
 
     <div class="editor">
+      <section class="card" id="publish-card" aria-labelledby="publish-heading">
+        <h2 id="publish-heading">Publishing</h2>
+        <div id="connected" hidden>
+          <p class="muted">This device can publish to the sign. Edits stay on this device until you tap <strong>Publish</strong>, then the sign updates within about 30 seconds.</p>
+          <button type="button" class="btn danger-quiet" id="disconnect">Disconnect this device</button>
+        </div>
+        <div id="not-connected">
+          <p class="muted">Edit from any phone, tablet or computer, then tap <strong>Publish</strong> to update the sign. Each device needs a GitHub key once, so only you can change the menu.</p>
+          <ol class="steps">
+            <li><a class="btn" id="make-key" href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Create a key on GitHub</a></li>
+            <li>Under <strong>Repository access</strong>, choose <strong>Only select repositories</strong> and pick <strong id="repo-name">Ray-Bar</strong>.</li>
+            <li>Under <strong>Permissions</strong>, add <strong>Contents</strong> and set it to <strong>Read and write</strong>.</li>
+            <li>Tap <strong>Generate token</strong>, copy it, and paste it here.</li>
+          </ol>
+          <div class="connect-row">
+            <input type="password" id="token-input" placeholder="github_pat_..." autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="GitHub key">
+            <button type="button" class="btn primary" id="connect">Connect</button>
+          </div>
+          <p id="connect-error" class="error" role="alert" hidden></p>
+          <p class="muted small">The key is saved only in this browser, and it can only change the menu repo.</p>
+        </div>
+      </section>
+
       <section class="card" aria-labelledby="bar-heading">
         <h2 id="bar-heading">The sign</h2>
         <div class="fields">
@@ -112,7 +144,7 @@
 
       <section class="card" aria-labelledby="backup-heading">
         <h2 id="backup-heading">Backup</h2>
-        <p class="muted">The menu is saved on this device. Export a copy now and then, and import it to move the menu to another device.</p>
+        <p class="muted">Every published menu is kept in the repo's history on GitHub. You can also save a copy as a file and load it back later.</p>
         <div class="button-row">
           <button type="button" class="btn" id="export">Export menu file</button>
           <label class="btn file-btn">Import menu file<input type="file" id="import" accept="application/json,.json"></label>
@@ -124,7 +156,7 @@
         <summary><h2>Setting up the iPad</h2></summary>
         <ol>
           <li>Open the sign in Safari, tap <strong>Share</strong>, then <strong>Add to Home Screen</strong>. Launch it from that icon and it runs full screen with no browser bars.</li>
-          <li>To edit, <strong>press and hold anywhere on the sign</strong>, then tap <strong>Edit menu</strong>. Always edit from inside the Home Screen app: Safari and the Home Screen app keep separate copies of the menu.</li>
+          <li>Edit from your phone or computer at this same address, then tap <strong>Publish</strong>. You can also edit on the iPad itself: press and hold anywhere on the sign, then tap <strong>Edit menu</strong>.</li>
           <li>Set <strong>Settings &gt; Display &amp; Brightness &gt; Auto-Lock</strong> to <strong>Never</strong> so the screen stays on.</li>
           <li>Optional: turn on <strong>Settings &gt; Accessibility &gt; Guided Access</strong> to lock the iPad to the sign.</li>
         </ol>
@@ -137,6 +169,7 @@
     <button type="button" id="toast-undo">Undo</button>
   </div>
 
+  <script src="js/config.js"></script>
   <script src="js/store.js"></script>
   <script src="js/editor.js"></script>
 </body>

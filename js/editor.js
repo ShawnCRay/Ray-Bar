@@ -8,7 +8,12 @@
 
   var RB = window.RayBar;
   var canSave = RB.storageAvailable();
-  var menu = RB.load() || RB.sampleMenu();
+  var published = RB.loadPublished(); // the last published menu this device has seen
+  var hadDraft = !!RB.load();
+  var menu = RB.load() || (published ? published.menu : RB.sampleMenu());
+  var token = RB.getToken();
+  var publishing = false;
+  var checkedSign = false;
 
   var statusEl = document.getElementById('status');
   var sectionsEl = document.getElementById('sections');
@@ -47,23 +52,33 @@
 
   var saveTimer = null;
 
-  function setStatus(state) {
+  function setStatus(state, text) {
     statusEl.setAttribute('data-state', state);
-    statusEl.textContent = state === 'saving' ? 'Saving…' : state === 'saved' ? 'Saved' : 'Not saved';
+    statusEl.textContent = text;
+  }
+
+  /* Shows whether this device's edits are on the sign yet. */
+  function updateStatus() {
+    if (!canSave) return setStatus('error', 'Not saved');
+    if (publishing) return setStatus('busy', 'Publishing\u2026');
+    if (saveTimer) return setStatus('busy', 'Saving\u2026');
+    if (!checkedSign && !published) return setStatus('busy', 'Checking\u2026');
+    if (published && RB.sameMenu(menu, published.menu)) return setStatus('ok', 'Published');
+    return setStatus('pending', 'Not published');
   }
 
   function saveNow() {
     clearTimeout(saveTimer);
     saveTimer = null;
-    var ok = canSave && RB.save(menu);
-    setStatus(ok ? 'saved' : 'error');
+    if (canSave) RB.save(menu);
+    updateStatus();
     refreshPreview();
   }
 
   function saveSoon() {
-    setStatus('saving');
     clearTimeout(saveTimer);
     saveTimer = setTimeout(saveNow, 300);
+    updateStatus();
   }
 
   function flush() {
@@ -75,10 +90,7 @@
     if (document.visibilityState === 'hidden') flush();
   });
 
-  if (!canSave) {
-    document.getElementById('storage-warning').hidden = false;
-    setStatus('error');
-  }
+  if (!canSave) document.getElementById('storage-warning').hidden = false;
 
   /* ---------- Undo toast ---------- */
 
@@ -88,13 +100,13 @@
   var toastTimer = null;
   var undoAction = null;
 
-  function showToast(message, onUndo) {
+  function showToast(message, onUndo, long) {
     toastText.textContent = message;
     undoAction = onUndo || null;
     toastUndo.hidden = !onUndo;
     toast.classList.add('show');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(hideToast, onUndo ? 8000 : 4000);
+    toastTimer = setTimeout(hideToast, onUndo || long ? 9000 : 4000);
   }
 
   function hideToast() {
@@ -120,6 +132,193 @@
       saveNow();
     });
   }
+
+  /* ---------- Publishing ---------- */
+
+  var publishBtn = document.getElementById('publish');
+  var connectedEl = document.getElementById('connected');
+  var notConnectedEl = document.getElementById('not-connected');
+  var tokenInput = document.getElementById('token-input');
+  var connectBtn = document.getElementById('connect');
+  var connectError = document.getElementById('connect-error');
+  var syncBanner = document.getElementById('sync-banner');
+
+  if (RB.CONFIG) {
+    document.getElementById('repo-name').textContent = RB.CONFIG.repo;
+    // Pre-fills GitHub's new-key form where GitHub supports it; the steps on screen cover the rest.
+    document.getElementById('make-key').href = 'https://github.com/settings/personal-access-tokens/new?' + [
+      'name=' + encodeURIComponent('Ray Bar editor'),
+      'description=' + encodeURIComponent('Lets the Ray Bar menu editor publish the menu'),
+      'target_name=' + encodeURIComponent(RB.CONFIG.owner),
+      'expires_in=366',
+      'contents=write'
+    ].join('&');
+  } else {
+    document.getElementById('publish-card').hidden = true;
+    publishBtn.hidden = true;
+  }
+
+  function showConnection() {
+    connectedEl.hidden = !token;
+    notConnectedEl.hidden = !!token;
+  }
+
+  function showConnectError(message) {
+    connectError.textContent = message || '';
+    connectError.hidden = !message;
+  }
+
+  function forgetKey() {
+    token = '';
+    RB.setToken('');
+    showConnection();
+  }
+
+  function openConnect(message) {
+    showConnectError(message);
+    document.getElementById('publish-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(function () { tokenInput.focus({ preventScroll: true }); }, 450);
+  }
+
+  connectBtn.addEventListener('click', function () {
+    var value = tokenInput.value.trim();
+    if (!value) {
+      showConnectError('Paste the key from GitHub first.');
+      tokenInput.focus();
+      return;
+    }
+    connectBtn.disabled = true;
+    showConnectError('');
+    RB.checkToken(value).then(function () {
+      token = value;
+      RB.setToken(token);
+      tokenInput.value = '';
+      showConnection();
+      showToast('Connected. This device can publish to the sign now.');
+    }).catch(function (err) {
+      showConnectError(err && err.status === 401
+        ? 'GitHub didn’t accept that key. Copy it again and paste the whole thing.'
+        : 'Couldn’t reach GitHub. Check the internet connection and try again.');
+    }).then(function () {
+      connectBtn.disabled = false;
+    });
+  });
+
+  tokenInput.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') connectBtn.click();
+  });
+
+  document.getElementById('disconnect').addEventListener('click', function () {
+    forgetKey();
+    showToast('Disconnected. This device can no longer publish.');
+  });
+
+  function publishErrorMessage(err) {
+    var status = err && err.status;
+    if (status === 401) return 'GitHub didn’t accept this device’s key. It may have expired. Connect again with a new key.';
+    if (status === 403 || status === 404) return 'That key can’t change the menu. Make a new key with access to ' + RB.CONFIG.repo + ' and Contents set to Read and write.';
+    if (status === 409 || status === 422) return 'The menu changed while publishing. Tap Publish again.';
+    return 'Couldn’t reach GitHub. Check the internet connection and try again.';
+  }
+
+  function publish() {
+    flush();
+    if (publishing) return;
+    if (!token) {
+      openConnect();
+      showToast('Connect this device to GitHub first');
+      return;
+    }
+    if (published && RB.sameMenu(menu, published.menu)) {
+      showToast('The sign already shows this menu');
+      return;
+    }
+
+    publishing = true;
+    publishBtn.disabled = true;
+    updateStatus();
+    var outgoing = RB.normalize(JSON.parse(JSON.stringify(menu)));
+    outgoing.updatedAt = new Date().toISOString();
+
+    RB.fetchPublished({ token: token }).then(function (current) {
+      var currentSha = current.status === 'ok' ? current.sha : undefined;
+      var changedElsewhere = current.status === 'ok' &&
+        !RB.sameMenu(current.menu, outgoing) &&
+        (!published || current.sha !== published.sha);
+      if (changedElsewhere && !window.confirm('The sign was changed from another device since this one last checked. Replace it with the menu on this device?')) {
+        return null;
+      }
+      return RB.publishMenu(outgoing, token, currentSha);
+    }).then(function (result) {
+      if (!result) return;
+      published = { sha: result.sha, etag: '', menu: outgoing };
+      RB.savePublished(published);
+      syncBanner.hidden = true;
+      showToast('Published. The sign updates within about 30 seconds.');
+    }).catch(function (err) {
+      var status = err && err.status;
+      if (status === 401 || status === 403 || status === 404) {
+        forgetKey();
+        openConnect(publishErrorMessage(err));
+      }
+      showToast(publishErrorMessage(err), null, true);
+    }).then(function () {
+      publishing = false;
+      publishBtn.disabled = false;
+      updateStatus();
+    });
+  }
+
+  publishBtn.addEventListener('click', publish);
+
+  /* On opening, load the menu that's on the sign unless this device has unpublished edits. */
+  function checkSign() {
+    if (!RB.CONFIG) {
+      checkedSign = true;
+      updateStatus();
+      return;
+    }
+    RB.fetchPublished({ token: token }).then(function (result) {
+      checkedSign = true;
+      if (result.status !== 'ok') return;
+      var before = published;
+      published = { sha: result.sha, etag: '', menu: result.menu };
+      RB.savePublished(published);
+      if (RB.sameMenu(menu, result.menu)) return;
+      var untouched = !hadDraft || (before && RB.sameMenu(menu, before.menu));
+      if (untouched) {
+        menu = RB.normalize(result.menu);
+        if (canSave) RB.save(menu);
+        renderAll();
+        refreshPreview();
+      } else {
+        syncBanner.hidden = false;
+        window.scrollTo(0, 0);
+      }
+    }).catch(function () {
+      checkedSign = true; // offline: keep working on the draft
+    }).then(updateStatus);
+  }
+
+  document.getElementById('use-sign').addEventListener('click', function () {
+    syncBanner.hidden = true;
+    if (!published) return;
+    undoable('Loaded the menu from the sign', function () {
+      menu = RB.normalize(published.menu);
+    });
+  });
+
+  document.getElementById('keep-draft').addEventListener('click', function () {
+    syncBanner.hidden = true;
+  });
+
+  // The sign on this same device saw a newer published menu.
+  window.addEventListener('storage', function (e) {
+    if (e.key === RB.PUBLISHED_KEY) {
+      published = RB.loadPublished();
+      updateStatus();
+    }
+  });
 
   /* ---------- Preview ---------- */
 
@@ -488,6 +687,9 @@
 
   /* ---------- Start ---------- */
 
+  showConnection();
   renderAll();
   if (canSave && !RB.readRaw()) RB.save(menu);
+  updateStatus();
+  checkSign();
 })();

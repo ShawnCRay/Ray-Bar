@@ -15,7 +15,14 @@
   var controls = document.getElementById('controls');
   var hint = document.getElementById('hint');
 
-  var menu = RB.load() || RB.sampleMenu();
+  /*
+   * The editor's preview shows the draft on this device. The real sign shows
+   * the published menu, and only falls back to the local draft if nothing
+   * has been published yet.
+   */
+  var cachedPublished = isPreview ? null : RB.loadPublished();
+  var usingPublished = !!cachedPublished;
+  var menu = cachedPublished ? cachedPublished.menu : (RB.load() || RB.sampleMenu());
   var lastRaw = RB.readRaw();
 
   /* ---------- Seeded randomness, so the wall looks the same every time ---------- */
@@ -354,23 +361,93 @@
     if (document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', scheduleFit);
   }
 
-  /* ---------- Pick up edits ---------- */
+  /* ---------- Pick up changes ---------- */
 
-  function reload() {
-    var raw = RB.readRaw();
-    if (raw === lastRaw) return;
-    lastRaw = raw;
-    menu = RB.load() || RB.sampleMenu();
+  var POLL_MS = 30000; // how often the sign checks for a newly published menu
+  var SLOW_POLL_MS = 180000; // when nothing is published yet, or GitHub asks us to slow down
+  var pollTimer = null;
+
+  function show(next) {
+    if (RB.sameMenu(next, menu)) return;
+    menu = next;
     render();
   }
 
+  /* The draft saved on this device (used by the preview, and before anything is published). */
+  function reloadLocal() {
+    var raw = RB.readRaw();
+    if (raw === lastRaw) return;
+    lastRaw = raw;
+    show(RB.load() || RB.sampleMenu());
+  }
+
+  function scheduleCheck(ms) {
+    clearTimeout(pollTimer);
+    pollTimer = setTimeout(checkPublished, ms);
+  }
+
+  /* Asks GitHub whether a new menu has been published. */
+  function checkPublished() {
+    clearTimeout(pollTimer);
+    var cached = RB.loadPublished();
+    RB.fetchPublished({ etag: cached && cached.etag, token: RB.getToken() }).then(function (result) {
+      if (result.status === 'ok') {
+        RB.savePublished(result);
+        usingPublished = true;
+        show(result.menu);
+        scheduleCheck(POLL_MS);
+      } else if (result.status === 'unchanged') {
+        if (cached && !usingPublished) {
+          usingPublished = true;
+          show(cached.menu);
+        }
+        scheduleCheck(POLL_MS);
+      } else {
+        usingPublished = false;
+        lastRaw = null;
+        reloadLocal();
+        scheduleCheck(SLOW_POLL_MS);
+      }
+    }).catch(function (err) {
+      // Out of API calls for the hour: read the plain file instead and check less often.
+      if (err && (err.status === 403 || err.status === 429)) {
+        RB.fetchPublishedRaw().then(function (raw) {
+          usingPublished = true;
+          show(raw);
+        }).catch(function () { /* keep showing what we have */ });
+        scheduleCheck(SLOW_POLL_MS);
+      } else {
+        scheduleCheck(POLL_MS * 2); // probably offline; keep showing what we have
+      }
+    });
+  }
+
+  function reload() {
+    if (isPreview || !RB.CONFIG) reloadLocal();
+    else checkPublished();
+  }
+
   window.addEventListener('storage', function (e) {
-    if (e.key === RB.STORAGE_KEY || e.key === null) reload();
+    if (isPreview || !usingPublished) {
+      if (e.key === RB.STORAGE_KEY || e.key === null) reloadLocal();
+      return;
+    }
+    // The editor on this same device just published.
+    if (e.key === RB.PUBLISHED_KEY) {
+      var published = RB.loadPublished();
+      if (published) show(published.menu);
+    }
   });
-  setInterval(reload, 2500);
+
+  setInterval(function () {
+    if (isPreview || !usingPublished) reloadLocal();
+  }, 2500);
+
   document.addEventListener('visibilitychange', function () {
     if (document.visibilityState === 'visible') reload();
   });
+
+  if (!isPreview && RB.CONFIG) checkPublished();
 
   window.RayBarSign = { reload: reload, fit: fit };
 

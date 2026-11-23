@@ -224,8 +224,197 @@
     }
   }
 
+  /* ---------- The published menu, shared between devices through GitHub ---------- */
+
+  var PUBLISHED_KEY = 'raybar.published.v1';
+  var GITHUB_KEY = 'raybar.github.v1';
+  var CONFIG = window.RayBarConfig || null;
+
+  function readJSON(key) {
+    try {
+      var raw = window.localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function writeJSON(key, value) {
+    try {
+      window.localStorage.setItem(key, JSON.stringify(value));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /* The last published menu this device has seen: { sha, etag, menu } or null. */
+  function loadPublished() {
+    var saved = readJSON(PUBLISHED_KEY);
+    if (!saved || !saved.menu) return null;
+    return { sha: str(saved.sha), etag: str(saved.etag), menu: normalize(saved.menu) };
+  }
+
+  function savePublished(published) {
+    return writeJSON(PUBLISHED_KEY, { sha: published.sha, etag: published.etag || '', menu: published.menu });
+  }
+
+  /* The GitHub key that lets this device publish (empty when not connected). */
+  function getToken() {
+    var saved = readJSON(GITHUB_KEY);
+    return saved && typeof saved.token === 'string' ? saved.token : '';
+  }
+
+  function setToken(token) {
+    if (token) return writeJSON(GITHUB_KEY, { token: token });
+    try { window.localStorage.removeItem(GITHUB_KEY); } catch (e) { /* ignore */ }
+    return true;
+  }
+
+  /* True when two menus have the same content, ignoring when they were saved. */
+  function sameMenu(a, b) {
+    if (!a || !b) return false;
+    var x = normalize(a);
+    var y = normalize(b);
+    x.updatedAt = '';
+    y.updatedAt = '';
+    return JSON.stringify(x) === JSON.stringify(y);
+  }
+
+  function encodeBase64(text) {
+    var bytes = new TextEncoder().encode(text);
+    var binary = '';
+    for (var i = 0; i < bytes.length; i += 0x8000) {
+      binary += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+    }
+    return window.btoa(binary);
+  }
+
+  function decodeBase64(encoded) {
+    var binary = window.atob(String(encoded).replace(/\s/g, ''));
+    var bytes = new Uint8Array(binary.length);
+    for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    return new TextDecoder().decode(bytes);
+  }
+
+  function repoUrl(suffix) {
+    return 'https://api.github.com/repos/' + CONFIG.owner + '/' + CONFIG.repo + (suffix || '');
+  }
+
+  function fileUrl() {
+    return repoUrl('/contents/' + encodeURIComponent(CONFIG.path));
+  }
+
+  function headers(token, extra) {
+    var h = { Accept: 'application/vnd.github+json' };
+    if (token) h.Authorization = 'Bearer ' + token;
+    return Object.assign(h, extra || {});
+  }
+
+  /* Turns a failed response into an Error carrying the HTTP status. */
+  function failure(res) {
+    return res.json().catch(function () { return {}; }).then(function (body) {
+      var err = new Error((body && body.message) || ('GitHub answered ' + res.status));
+      err.status = res.status;
+      throw err;
+    });
+  }
+
+  /*
+   * Reads the published menu. Resolves to one of:
+   *   { status: 'ok', sha, etag, menu }
+   *   { status: 'unchanged' }  (when etag still matches)
+   *   { status: 'missing' }    (nothing published yet)
+   */
+  function fetchPublished(options) {
+    options = options || {};
+    if (!CONFIG) return Promise.resolve({ status: 'missing' });
+    var h = headers(options.token);
+    if (options.etag) h['If-None-Match'] = options.etag;
+    var url = fileUrl() + '?ref=' + encodeURIComponent(CONFIG.branch);
+    return fetch(url, { headers: h, cache: 'no-store' }).then(function (res) {
+      if (res.status === 304) return { status: 'unchanged' };
+      if (res.status === 404) return { status: 'missing' };
+      if (!res.ok) return failure(res);
+      var etag = res.headers.get('ETag') || '';
+      return res.json().then(function (data) {
+        return {
+          status: 'ok',
+          sha: data.sha,
+          etag: etag,
+          menu: normalize(JSON.parse(decodeBase64(data.content || '')))
+        };
+      });
+    });
+  }
+
+  /* Backup route if GitHub's hourly limit runs out. Can lag a few minutes behind. */
+  function fetchPublishedRaw() {
+    var url = 'https://raw.githubusercontent.com/' + CONFIG.owner + '/' + CONFIG.repo + '/' +
+      CONFIG.branch + '/' + CONFIG.path + '?t=' + Date.now();
+    return fetch(url, { cache: 'no-store' }).then(function (res) {
+      if (!res.ok) return failure(res);
+      return res.json().then(normalize);
+    });
+  }
+
+  /* Makes the menu branch from the default branch, if it's missing. */
+  function createBranch(token) {
+    return fetch(repoUrl(), { headers: headers(token), cache: 'no-store' }).then(function (res) {
+      if (!res.ok) return failure(res);
+      return res.json();
+    }).then(function (repo) {
+      return fetch(repoUrl('/git/ref/heads/' + encodeURIComponent(repo.default_branch)), { headers: headers(token), cache: 'no-store' });
+    }).then(function (res) {
+      if (!res.ok) return failure(res);
+      return res.json();
+    }).then(function (ref) {
+      return fetch(repoUrl('/git/refs'), {
+        method: 'POST',
+        headers: headers(token, { 'Content-Type': 'application/json' }),
+        body: JSON.stringify({ ref: 'refs/heads/' + CONFIG.branch, sha: ref.object.sha })
+      });
+    }).then(function (res) {
+      if (!res.ok) return failure(res);
+    });
+  }
+
+  /* Publishes the menu. `sha` is the version being replaced (omit for the first one). Resolves to { sha }. */
+  function publishMenu(menu, token, sha, retried) {
+    var body = {
+      message: 'Update the menu',
+      content: encodeBase64(JSON.stringify(menu, null, 2) + '\n'),
+      branch: CONFIG.branch
+    };
+    if (sha) body.sha = sha;
+    return fetch(fileUrl(), {
+      method: 'PUT',
+      headers: headers(token, { 'Content-Type': 'application/json' }),
+      body: JSON.stringify(body)
+    }).then(function (res) {
+      if (res.ok) return res.json().then(function (data) { return { sha: data.content.sha }; });
+      return failure(res);
+    }).catch(function (err) {
+      var branchMissing = err && (err.status === 404 || err.status === 422) && /branch/i.test(err.message);
+      if (branchMissing && !retried) {
+        return createBranch(token).then(function () { return publishMenu(menu, token, sha, true); });
+      }
+      throw err;
+    });
+  }
+
+  /* Checks that GitHub accepts a key. */
+  function checkToken(token) {
+    return fetch(repoUrl(), { headers: headers(token), cache: 'no-store' }).then(function (res) {
+      if (!res.ok) return failure(res);
+      return res.json();
+    });
+  }
+
   window.RayBar = {
     STORAGE_KEY: STORAGE_KEY,
+    PUBLISHED_KEY: PUBLISHED_KEY,
+    CONFIG: CONFIG,
     SIGN_STYLES: SIGN_STYLES,
     WALLS: WALLS,
     COLUMN_CHOICES: COLUMN_CHOICES,
@@ -233,9 +422,18 @@
     resolveStyle: resolveStyle,
     sampleMenu: sampleMenu,
     normalize: normalize,
+    sameMenu: sameMenu,
     storageAvailable: storageAvailable,
     readRaw: readRaw,
     load: load,
-    save: save
+    save: save,
+    loadPublished: loadPublished,
+    savePublished: savePublished,
+    getToken: getToken,
+    setToken: setToken,
+    fetchPublished: fetchPublished,
+    fetchPublishedRaw: fetchPublishedRaw,
+    publishMenu: publishMenu,
+    checkToken: checkToken
   };
 })();
