@@ -7,7 +7,7 @@
     "footer": "Caps only · No tabs · Drink at your own risk"
   },
   "settings": {
-    "wall": "concrete",
+    "wall": "metal",
     "columns": "auto",
     "showPrices": true,
     "showDescriptions": true,
@@ -30,33 +30,17 @@
           "featured": true
         },
         {
+          "id": "a4zcjcez",
+          "name": "Dirty Shirley",
+          "description": "GC, BWR, NW Princess Donut the Queen Anne Chonk would be proud",
+          "price": "12",
+          "available": true,
+          "featured": true
+        },
+        {
           "id": "3vd3dwp6",
           "name": "Margarita",
           "description": "Tequila, fresh lime, orange liqueur, salted rim",
-          "price": "10",
-          "available": true,
-          "featured": false
-        },
-        {
-          "id": "ilsx96mc",
-          "name": "Negroni",
-          "description": "Gin, Campari, sweet vermouth. Bitter as the wasteland",
-          "price": "11",
-          "available": true,
-          "featured": false
-        },
-        {
-          "id": "vth3o69n",
-          "name": "Espresso Martini",
-          "description": "Vodka, espresso, coffee liqueur. Keeps you up past curfew",
-          "price": "12",
-          "available": true,
-          "featured": false
-        },
-        {
-          "id": "3nygkz1q",
-          "name": "Paloma",
-          "description": "Tequila, grapefruit, lime, soda",
           "price": "10",
           "available": true,
           "featured": false
@@ -67,6 +51,14 @@
           "description": "Rye, lemon, sugar, egg white",
           "price": "11",
           "available": false,
+          "featured": false
+        },
+        {
+          "id": "k9noiza5",
+          "name": "Gina and soda",
+          "description": "Your choice of lemon or lime",
+          "price": "10",
+          "available": true,
           "featured": false
         }
       ]
@@ -163,5 +155,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-11-23T23:30:25.862Z"
+  "updatedAt": "2026-11-23T23:33:28.246Z"
 }
