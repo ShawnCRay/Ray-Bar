@@ -1,0 +1,167 @@
+{
+  "version": 1,
+  "bar": {
+    "name": "Ray Bar",
+    "tagline": "Drinks for the end of the world",
+    "neon": "OPEN",
+    "footer": "Caps only · No tabs · Drink responsibly"
+  },
+  "settings": {
+    "wall": "concrete",
+    "columns": "auto",
+    "showPrices": true,
+    "showDescriptions": true,
+    "soldOut": "show"
+  },
+  "sections": [
+    {
+      "id": "sample-cocktails",
+      "title": "Cocktails",
+      "note": "",
+      "style": "rust",
+      "visible": true,
+      "items": [
+        {
+          "id": "g9zmudcm",
+          "name": "Old Fashioned",
+          "description": "Pre-war recipe. Bourbon, sugar, bitters, orange peel",
+          "price": "12",
+          "available": true,
+          "featured": true
+        },
+        {
+          "id": "3vd3dwp6",
+          "name": "Margarita",
+          "description": "Tequila, fresh lime, orange liqueur, salted rim",
+          "price": "10",
+          "available": true,
+          "featured": false
+        },
+        {
+          "id": "ilsx96mc",
+          "name": "Negroni",
+          "description": "Gin, Campari, sweet vermouth. Bitter as the wasteland",
+          "price": "11",
+          "available": true,
+          "featured": false
+        },
+        {
+          "id": "vth3o69n",
+          "name": "Espresso Martini",
+          "description": "Vodka, espresso, coffee liqueur. Keeps you up past curfew",
+          "price": "12",
+          "available": true,
+          "featured": false
+        },
+        {
+          "id": "3nygkz1q",
+          "name": "Paloma",
+          "description": "Tequila, grapefruit, lime, soda",
+          "price": "10",
+          "available": true,
+          "featured": false
+        },
+        {
+          "id": "iqq5rj8s",
+          "name": "Whiskey Sour",
+          "description": "Rye, lemon, sugar, egg white",
+          "price": "11",
+          "available": false,
+          "featured": false
+        }
+      ]
+    },
+    {
+      "id": "sample-beer",
+      "title": "Beer",
+      "note": "Ask what's cold",
+      "style": "wood",
+      "visible": true,
+      "items": [
+        {
+          "id": "gilpj498",
+          "name": "Hazy IPA",
+          "description": "Citrus and pine",
+          "price": "6",
+          "available": true,
+          "featured": false
+        },
+        {
+          "id": "847rp43z",
+          "name": "Mexican Lager",
+          "description": "Crisp, with a lime",
+          "price": "5",
+          "available": true,
+          "featured": false
+        },
+        {
+          "id": "e0vxg07h",
+          "name": "Stout",
+          "description": "Dark as a bunker with the lights out",
+          "price": "6",
+          "available": true,
+          "featured": false
+        }
+      ]
+    },
+    {
+      "id": "sample-wine",
+      "title": "Wine",
+      "note": "",
+      "style": "enamel",
+      "visible": true,
+      "items": [
+        {
+          "id": "x3n4lgmk",
+          "name": "Cabernet",
+          "description": "Full-bodied red, salvaged from a cellar",
+          "price": "9",
+          "available": true,
+          "featured": false
+        },
+        {
+          "id": "6ip7sqrb",
+          "name": "Sauvignon Blanc",
+          "description": "Crisp white, kept cold",
+          "price": "9",
+          "available": true,
+          "featured": false
+        },
+        {
+          "id": "r1b6x4wz",
+          "name": "Prosecco",
+          "description": "Dry Italian bubbles",
+          "price": "10",
+          "available": true,
+          "featured": false
+        }
+      ]
+    },
+    {
+      "id": "sample-zero-proof",
+      "title": "Zero Proof",
+      "note": "Zero rads, zero proof",
+      "style": "caution",
+      "visible": true,
+      "items": [
+        {
+          "id": "4vzxmdjs",
+          "name": "Ginger Mule",
+          "description": "Ginger beer, lime, mint",
+          "price": "4",
+          "available": true,
+          "featured": false
+        },
+        {
+          "id": "zssb2sft",
+          "name": "Clean Water",
+          "description": "Filtered. Probably.",
+          "price": "1",
+          "available": true,
+          "featured": false
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2026-11-23T22:16:26.686Z"
+}
