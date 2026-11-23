@@ -115,7 +115,7 @@
           "id": "6ip7sqrb",
           "name": "White",
           "description": "",
-          "price": "9",
+          "price": "8",
           "available": true,
           "featured": false
         },
@@ -123,7 +123,7 @@
           "id": "r1b6x4wz",
           "name": "Pink",
           "description": "",
-          "price": "10",
+          "price": "7",
           "available": true,
           "featured": false
         }
@@ -140,7 +140,7 @@
           "id": "4vzxmdjs",
           "name": "Pepsi",
           "description": "Sugary Water",
-          "price": "4",
+          "price": "3",
           "available": true,
           "featured": false
         },
@@ -148,7 +148,7 @@
           "id": "zqcyig5b",
           "name": "Chery Pepsi",
           "description": "Sugary water with cherry",
-          "price": "",
+          "price": "4",
           "available": true,
           "featured": false
         },
@@ -156,7 +156,7 @@
           "id": "ms7nrh3v",
           "name": "Coke",
           "description": "Bitter sugary water",
-          "price": "",
+          "price": "4",
           "available": true,
           "featured": false
         },
@@ -169,7 +169,40 @@
           "featured": false
         }
       ]
+    },
+    {
+      "id": "meiblb1k",
+      "title": "Chems",
+      "note": "You're really going to ask for this in the open?",
+      "style": "auto",
+      "visible": true,
+      "items": [
+        {
+          "id": "2j5s0g82",
+          "name": "Jet",
+          "description": "",
+          "price": "99",
+          "available": true,
+          "featured": false
+        },
+        {
+          "id": "zmb3d74w",
+          "name": "Psycho",
+          "description": "",
+          "price": "99",
+          "available": true,
+          "featured": false
+        },
+        {
+          "id": "yfonmu7g",
+          "name": "Daytripper",
+          "description": "",
+          "price": "99",
+          "available": true,
+          "featured": false
+        }
+      ]
     }
   ],
-  "updatedAt": "2026-11-23T23:36:51.581Z"
+  "updatedAt": "2026-11-23T23:39:12.136Z"
 }
