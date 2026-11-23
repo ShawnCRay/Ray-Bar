@@ -100,7 +100,7 @@
       "id": "sample-wine",
       "title": "Wine",
       "note": "",
-      "style": "enamel",
+      "style": "diner",
       "visible": true,
       "items": [
         {
@@ -133,7 +133,7 @@
       "id": "sample-zero-proof",
       "title": "Zero Proof",
       "note": "Zero rads, zero proof, zero fun",
-      "style": "caution",
+      "style": "enamel",
       "visible": true,
       "items": [
         {
@@ -174,7 +174,7 @@
       "id": "meiblb1k",
       "title": "Chems",
       "note": "You're really going to ask for this in the open?",
-      "style": "auto",
+      "style": "caution",
       "visible": true,
       "items": [
         {
@@ -204,5 +204,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-11-23T23:39:12.136Z"
+  "updatedAt": "2026-11-23T23:39:50.102Z"
 }
