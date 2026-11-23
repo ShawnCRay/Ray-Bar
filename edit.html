@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Ray Bar editor</title>
+  <meta name="theme-color" content="#171513">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Ray Bar">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Permanent+Marker&display=swap">
+  <link rel="stylesheet" href="css/editor.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">Ray Bar</span>
+      <span class="brand-sub">Menu editor</span>
+    </div>
+    <div class="topbar-actions">
+      <span id="status" class="status" role="status" data-state="saved">Saved</span>
+      <a class="btn primary" href="index.html">Show the sign</a>
+    </div>
+  </header>
+
+  <div id="storage-warning" class="banner" hidden>
+    This browser is blocking storage (often Private Browsing), so changes will not be kept.
+    Open the editor in a normal Safari tab or from the Home Screen app.
+  </div>
+
+  <main class="layout">
+    <section class="preview-panel" aria-label="Preview">
+      <div class="panel-head">
+        <h2>Preview</h2>
+        <div class="seg small" role="radiogroup" aria-label="Preview orientation">
+          <label><input type="radio" name="orientation" value="landscape" checked><span>Landscape</span></label>
+          <label><input type="radio" name="orientation" value="portrait"><span>Portrait</span></label>
+        </div>
+      </div>
+      <div id="preview-stage" class="preview-stage">
+        <iframe id="preview-frame" src="index.html?preview=1" title="Live preview of the sign" tabindex="-1"></iframe>
+      </div>
+      <p class="hint">Changes show up on the sign right away. Press and hold the sign on the iPad to get back here.</p>
+    </section>
+
+    <div class="editor">
+      <section class="card" aria-labelledby="bar-heading">
+        <h2 id="bar-heading">The sign</h2>
+        <div class="fields">
+          <label class="field">
+            <span>Bar name <em>each letter gets its own salvaged plate</em></span>
+            <input type="text" data-bind="bar.name" maxlength="40" autocomplete="off" placeholder="Ray Bar">
+          </label>
+          <label class="field">
+            <span>Tagline <em>on a strip of masking tape</em></span>
+            <input type="text" data-bind="bar.tagline" maxlength="80" autocomplete="off" placeholder="Drinks for the end of the world">
+          </label>
+          <label class="field">
+            <span>Neon sign <em>leave blank to switch it off</em></span>
+            <input type="text" data-bind="bar.neon" maxlength="16" autocomplete="off" placeholder="OPEN">
+          </label>
+          <label class="field">
+            <span>Footer <em>stenciled on the wall</em></span>
+            <input type="text" data-bind="bar.footer" maxlength="90" autocomplete="off" placeholder="Caps only · No tabs">
+          </label>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="look-heading">
+        <h2 id="look-heading">Look</h2>
+        <div class="fields">
+          <div class="field">
+            <span id="wall-label">Wall</span>
+            <div class="seg" role="radiogroup" aria-labelledby="wall-label" id="wall-choices"></div>
+          </div>
+          <div class="field">
+            <span id="columns-label">Columns <em>Auto picks whatever makes the text biggest</em></span>
+            <div class="seg" role="radiogroup" aria-labelledby="columns-label" id="column-choices"></div>
+          </div>
+          <div class="field">
+            <span id="soldout-label">Drinks you're out of</span>
+            <div class="seg" role="radiogroup" aria-labelledby="soldout-label">
+              <label><input type="radio" name="soldOut" value="show"><span>Stamp them OUT</span></label>
+              <label><input type="radio" name="soldOut" value="hide"><span>Hide them</span></label>
+            </div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" data-bind="settings.showPrices">
+            <span class="track" aria-hidden="true"></span>
+            <span>Show prices <em>plain numbers show as bottle caps</em></span>
+          </label>
+          <label class="switch">
+            <input type="checkbox" data-bind="settings.showDescriptions">
+            <span class="track" aria-hidden="true"></span>
+            <span>Show descriptions</span>
+          </label>
+        </div>
+      </section>
+
+      <div class="section-title-row">
+        <h2>Signs</h2>
+        <p>Each sign is a section of the menu, like Cocktails or Beer.</p>
+      </div>
+      <div id="sections" class="sections"></div>
+      <button type="button" class="btn add-sign" data-action="add-section">+ Add a sign</button>
+
+      <section class="card" aria-labelledby="backup-heading">
+        <h2 id="backup-heading">Backup</h2>
+        <p class="muted">The menu is saved on this device. Export a copy now and then, and import it to move the menu to another device.</p>
+        <div class="button-row">
+          <button type="button" class="btn" id="export">Export menu file</button>
+          <label class="btn file-btn">Import menu file<input type="file" id="import" accept="application/json,.json"></label>
+          <button type="button" class="btn danger-quiet" id="reset">Start over with the sample</button>
+        </div>
+      </section>
+
+      <details class="card tips">
+        <summary><h2>Setting up the iPad</h2></summary>
+        <ol>
+          <li>Open the sign in Safari, tap <strong>Share</strong>, then <strong>Add to Home Screen</strong>. Launch it from that icon and it runs full screen with no browser bars.</li>
+          <li>To edit, <strong>press and hold anywhere on the sign</strong>, then tap <strong>Edit menu</strong>. Always edit from inside the Home Screen app: Safari and the Home Screen app keep separate copies of the menu.</li>
+          <li>Set <strong>Settings &gt; Display &amp; Brightness &gt; Auto-Lock</strong> to <strong>Never</strong> so the screen stays on.</li>
+          <li>Optional: turn on <strong>Settings &gt; Accessibility &gt; Guided Access</strong> to lock the iPad to the sign.</li>
+        </ol>
+      </details>
+    </div>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite">
+    <span id="toast-text"></span>
+    <button type="button" id="toast-undo">Undo</button>
+  </div>
+
+  <script src="js/store.js"></script>
+  <script src="js/editor.js"></script>
+</body>
+</html>
