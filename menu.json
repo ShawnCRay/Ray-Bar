@@ -4,7 +4,7 @@
     "name": "Ray Bar",
     "tagline": "Drinks for the end of the world",
     "neon": "OPEN",
-    "footer": "Caps only · No tabs · Drink responsibly"
+    "footer": "Caps only · No tabs · Drink at your own risk"
   },
   "settings": {
     "wall": "concrete",
@@ -163,5 +163,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-11-23T22:16:26.686Z"
+  "updatedAt": "2026-11-23T23:30:25.862Z"
 }
