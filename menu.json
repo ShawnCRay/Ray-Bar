@@ -65,31 +65,31 @@
     },
     {
       "id": "sample-beer",
-      "title": "Beer",
-      "note": "Ask what's cold",
-      "style": "wood",
+      "title": "well liquor",
+      "note": "Probably won't make you blind",
+      "style": "chalk",
       "visible": true,
       "items": [
         {
           "id": "gilpj498",
-          "name": "Hazy IPA",
-          "description": "Citrus and pine",
+          "name": "Four Roses",
+          "description": "Mostly Whiskey",
           "price": "6",
           "available": true,
           "featured": false
         },
         {
           "id": "847rp43z",
-          "name": "Mexican Lager",
-          "description": "Crisp, with a lime",
+          "name": "Hendrick's",
+          "description": "Gin, we think",
           "price": "5",
           "available": true,
           "featured": false
         },
         {
           "id": "e0vxg07h",
-          "name": "Stout",
-          "description": "Dark as a bunker with the lights out",
+          "name": "Tito's",
+          "description": "It's Vodka",
           "price": "6",
           "available": true,
           "featured": false
@@ -155,5 +155,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-11-23T23:33:28.246Z"
+  "updatedAt": "2026-11-23T23:34:51.515Z"
 }
