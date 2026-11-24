@@ -207,7 +207,7 @@
       "id": "058zk70f",
       "title": "S.p.e.c.i.a.l.s",
       "note": "help us get this... stuff out of the bar",
-      "style": "auto",
+      "style": "wood",
       "visible": true,
       "items": [
         {
@@ -229,5 +229,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-11-24T03:31:01.338Z"
+  "updatedAt": "2026-11-24T03:48:09.819Z"
 }
