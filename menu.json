@@ -202,7 +202,32 @@
           "featured": false
         }
       ]
+    },
+    {
+      "id": "058zk70f",
+      "title": "S.p.e.c.i.a.l.s",
+      "note": "help us get this... stuff out of the bar",
+      "style": "auto",
+      "visible": true,
+      "items": [
+        {
+          "id": "cfsqd7ye",
+          "name": "Pink Whitney",
+          "description": "",
+          "price": "",
+          "available": true,
+          "featured": false
+        },
+        {
+          "id": "sijdvb5r",
+          "name": "Fireball",
+          "description": "",
+          "price": "",
+          "available": true,
+          "featured": false
+        }
+      ]
     }
   ],
-  "updatedAt": "2026-11-24T02:41:02.628Z"
+  "updatedAt": "2026-11-24T03:31:01.338Z"
 }
