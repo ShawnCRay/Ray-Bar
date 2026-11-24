@@ -1,7 +1,7 @@
 {
   "version": 1,
   "bar": {
-    "name": "Liam Bar",
+    "name": "Ray Bar",
     "tagline": "Drinks for the end of the world",
     "neon": "OPEN",
     "footer": "Caps only · No tabs · Drink at your own risk"
@@ -50,7 +50,7 @@
           "name": "Whiskey Sour",
           "description": "Rye, lemon, sugar, egg white",
           "price": "11",
-          "available": false,
+          "available": true,
           "featured": false
         },
         {
@@ -204,5 +204,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-11-24T02:35:11.813Z"
+  "updatedAt": "2026-11-24T02:36:23.802Z"
 }
