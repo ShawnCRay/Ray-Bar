@@ -1,7 +1,7 @@
 {
   "version": 1,
   "bar": {
-    "name": "Marcus Bar",
+    "name": "Liam Bar",
     "tagline": "Drinks for the end of the world",
     "neon": "OPEN",
     "footer": "Caps only · No tabs · Drink at your own risk"
@@ -204,5 +204,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-11-24T02:33:32.152Z"
+  "updatedAt": "2026-11-24T02:35:11.813Z"
 }
