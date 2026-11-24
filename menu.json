@@ -7,7 +7,7 @@
     "footer": "Caps only · No tabs · Drink at your own risk"
   },
   "settings": {
-    "wall": "concrete",
+    "wall": "metal",
     "columns": "auto",
     "showPrices": true,
     "showDescriptions": true,
@@ -204,5 +204,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-11-24T02:39:55.251Z"
+  "updatedAt": "2026-11-24T02:41:02.628Z"
 }
