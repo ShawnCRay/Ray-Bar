@@ -175,7 +175,7 @@
       "title": "Chems",
       "note": "You're really going to ask for this in the open?",
       "style": "caution",
-      "visible": false,
+      "visible": true,
       "items": [
         {
           "id": "2j5s0g82",
@@ -204,5 +204,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-11-24T02:38:10.754Z"
+  "updatedAt": "2026-11-24T02:39:27.047Z"
 }
