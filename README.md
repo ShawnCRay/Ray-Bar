@@ -2,6 +2,8 @@
 
 A drink menu for a home bar, built to live on an iPad as a sign. It looks like a wall of salvaged, mismatched signs: rusted metal, painted planks, chipped enamel, hazard plates, cardboard and duct tape, with every letter of the bar name on a different scrap plate and a flickering neon sign in the corner.
 
+There is also a separate **booth sign** for the business, Ray Bar Boozy Extracts, in the `booth/` folder. See [Booth sign](#booth-sign-ray-bar-boozy-extracts) below.
+
 ## The two pages
 
 | Page | What it does |
@@ -74,4 +76,59 @@ js/sign.js             draws the wall, fits it to the screen, checks for new men
 js/editor.js           the editor, including connecting and publishing
 manifest.webmanifest   lets it install to the Home Screen
 icons/                 app icons
+```
+
+---
+
+## Booth sign (Ray Bar Boozy Extracts)
+
+A price display for markets and vendor shows, in the colors and fonts of [raybarboozyextracts.com](https://raybarboozyextracts.com). It's completely separate from the home bar menu: its own pages, its own published file, and its own look. It starts out with the eight products, prices, photos and category blurbs from the website.
+
+| Page | Address | What it does |
+| --- | --- | --- |
+| `booth/index.html` | https://shawncray.github.io/Ray-Bar/booth/ | **The sign.** Fills any screen (iPad either way up, or a TV), keeps the screen awake, and picks up new prices on its own. Press and hold anywhere for **Edit prices**. |
+| `booth/edit.html` | https://shawncray.github.io/Ray-Bar/booth/edit.html | **The editor.** Change anything, watch the preview, then **Publish**. |
+
+### What you can change from show to show
+
+- **This show:** a headline and second line (top right of the sign), show specials in a gold box (like "Any 3 bitters for $55"), and small print along the bottom.
+- **Products:** name, price, sale price (shows the regular price crossed out), size, a short description, a label like New or Best seller, in stock or sold out, and the photo. Tap the photo to take or pick a new one; it's shrunk and saved to GitHub for you.
+- **Categories:** Extracts, Bitters, Champagne Cubes, or anything you add. Each can be shown or hidden and reordered.
+- **Payment and QR code:** which payment types you take (Cash, Card, Apple Pay, Venmo and so on), a note like your Venmo handle, and a QR code that sends people to the website (or anywhere else).
+- **Look:** Espresso (dark) or Cream (light, easier to read in bright sun), photo cards or a price list, number of columns, and whether sold out products are marked or hidden.
+- **Saved shows:** save the whole setup under a name, like "Holiday Market", and load it next time. Product photos always stay current when you load a show. Saved shows travel to your other devices when you publish.
+
+### Using it at a show
+
+1. Open the sign on the iPad in Safari, tap **Share**, then **Add to Home Screen**, and launch it from that icon.
+2. Open it once while you have internet. After that it works with no signal at all, showing the last prices it loaded, and picks up new prices whenever it reconnects.
+3. Set **Auto-Lock** to **Never** and keep the iPad plugged in. **Guided Access** keeps customers from leaving the sign.
+4. To change a price or mark something sold out mid-show, edit on your phone and tap **Publish**. The sign updates within about 30 seconds.
+
+Publishing uses the same GitHub key as the home bar menu editor. A device that's already connected there is connected here too. The steps for making a key are the same, and are shown in the editor.
+
+### How it works
+
+- The published sign is `booth.json` on the `menu` branch, next to the home bar's `menu.json`. Photos you add go in `booth-photos/` on the same branch, and each one's address includes the exact commit, so it never changes.
+- The sign reads `booth.json` every 30 seconds the same way the home bar sign reads its menu, and keeps the last copy on the device.
+- `booth/sw.js` saves the sign's own files (pages, fonts, logo, product photos) on the device so it loads with no internet. When there is a connection it always fetches fresh copies, and it falls back to the saved ones after a few seconds on a weak signal.
+- Where it publishes is set in `booth/js/config.js`.
+
+### Booth files
+
+```
+booth/index.html             the sign
+booth/edit.html              the editor
+booth/css/display.css        the sign's look, in the website's colors
+booth/css/editor.css         the editor's look
+booth/css/fonts.css          Barlow Condensed and Inter, kept with the site so they work offline
+booth/js/config.js           where the published sign lives on GitHub
+booth/js/store.js            products, the starting lineup, saving, publishing, photo uploads
+booth/js/display.js          draws the sign, fits it to the screen, checks for new prices
+booth/js/editor.js           the editor
+booth/js/vendor/qrcode.js    QR code generator (MIT license, Kazuhiko Arase)
+booth/sw.js                  keeps the sign working with no internet
+booth/img/                   logo and product photos from raybarboozyextracts.com
+booth/fonts/                 font files and their licenses (SIL Open Font License)
+booth/icons/                 Home Screen icons
 ```

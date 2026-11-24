@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Ray Bar</title>
+  <meta name="description" content="Ray Bar Boozy Extracts prices for markets and shows.">
+  <meta name="theme-color" content="#1a0f0a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Ray Bar Booth">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="preload" href="fonts/barlow-condensed-700.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/inter-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/display.css">
+</head>
+<body>
+  <div id="stage" class="stage" data-theme="espresso" data-layout="cards"></div>
+
+  <div id="controls" class="controls" aria-hidden="true">
+    <button id="fullscreen" type="button" hidden>Full screen</button>
+    <button id="close-controls" type="button">Done</button>
+    <a class="primary" href="edit.html">Edit prices</a>
+  </div>
+  <div id="hint" class="hint" aria-hidden="true">Press and hold anywhere to edit</div>
+
+  <script src="js/config.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/vendor/qrcode.js"></script>
+  <script src="js/display.js"></script>
+</body>
+</html>

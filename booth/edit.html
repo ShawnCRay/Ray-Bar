@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Ray Bar booth editor</title>
+  <meta name="theme-color" content="#1a0f0a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Ray Bar Booth">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/editor.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img class="brand-logo" src="img/logo.webp" alt="">
+      <span class="brand-mark">Ray Bar</span>
+      <span class="brand-sub">Booth sign editor</span>
+    </div>
+    <div class="topbar-actions">
+      <span id="status" class="status" role="status" data-state="busy">Checking…</span>
+      <a class="btn" href="index.html"><span class="long">Show the sign</span><span class="short">Sign</span></a>
+      <button type="button" class="btn primary" id="publish">Publish</button>
+    </div>
+  </header>
+
+  <div id="storage-warning" class="banner" hidden>
+    This browser is blocking storage (often Private Browsing), so changes will not be kept.
+    Open the editor in a normal Safari tab or from the Home Screen app.
+  </div>
+
+  <div id="sync-banner" class="banner notice" hidden>
+    <p>The sign was changed from another device, and this device also has edits that aren't published. Which one do you want to keep working on?</p>
+    <div class="button-row">
+      <button type="button" class="btn primary" id="use-sign">Load what's on the sign</button>
+      <button type="button" class="btn" id="keep-draft">Keep my edits</button>
+    </div>
+  </div>
+
+  <main class="layout">
+    <section class="preview-panel" aria-label="Preview">
+      <div class="panel-head">
+        <h2>Preview</h2>
+        <div class="seg small" role="radiogroup" aria-label="Preview screen">
+          <label><input type="radio" name="screen" value="landscape" checked><span>iPad</span></label>
+          <label><input type="radio" name="screen" value="portrait"><span>iPad upright</span></label>
+          <label><input type="radio" name="screen" value="tv"><span>TV</span></label>
+        </div>
+      </div>
+      <div id="preview-stage" class="preview-stage">
+        <iframe id="preview-frame" src="index.html?preview=1" title="Live preview of the booth sign" tabindex="-1"></iframe>
+      </div>
+      <p class="hint">The preview shows your edits as you make them. Tap <strong>Publish</strong> to put them on the sign.</p>
+    </section>
+
+    <div class="editor">
+      <section class="card" id="publish-card" aria-labelledby="publish-heading">
+        <h2 id="publish-heading">Publishing</h2>
+        <div id="connected" hidden>
+          <p class="muted">This device can publish to the sign. Edits stay on this device until you tap <strong>Publish</strong>, then the sign updates within about 30 seconds.</p>
+          <button type="button" class="btn danger-quiet" id="disconnect">Disconnect this device</button>
+        </div>
+        <div id="not-connected">
+          <p class="muted">Edit from any phone, tablet or computer, then tap <strong>Publish</strong> to update the sign. Each device needs a GitHub key once, so only you can change the prices. A device already connected to the home bar menu editor is connected here too.</p>
+          <ol class="steps">
+            <li><a class="btn" id="make-key" href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Create a key on GitHub</a></li>
+            <li>Under <strong>Repository access</strong>, choose <strong>Only select repositories</strong> and pick <strong id="repo-name">Ray-Bar</strong>.</li>
+            <li>Under <strong>Permissions</strong>, add <strong>Contents</strong> and set it to <strong>Read and write</strong>.</li>
+            <li>Tap <strong>Generate token</strong>, copy it, and paste it here.</li>
+          </ol>
+          <div class="connect-row">
+            <input type="password" id="token-input" placeholder="github_pat_..." autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="GitHub key">
+            <button type="button" class="btn primary" id="connect">Connect</button>
+          </div>
+          <p id="connect-error" class="error" role="alert" hidden></p>
+          <p class="muted small">The key is saved only in this browser, and it can only change the Ray-Bar repo.</p>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="show-heading">
+        <h2 id="show-heading">This show</h2>
+        <div class="fields">
+          <label class="field">
+            <span>Headline <em>top right of the sign</em></span>
+            <input type="text" data-bind="show.title" maxlength="70" autocomplete="off" placeholder="Welcome to the Holiday Market!">
+          </label>
+          <label class="field">
+            <span>Second line <em>optional</em></span>
+            <input type="text" data-bind="show.subtitle" maxlength="90" autocomplete="off" placeholder="Free tastings all day. Just ask!">
+          </label>
+          <div class="field">
+            <span id="specials-label">Show specials <em>the gold box, leave empty to hide it</em></span>
+            <div id="deals" class="deals" aria-labelledby="specials-label"></div>
+            <button type="button" class="btn add-line" data-action="add-deal">+ Add a special</button>
+          </div>
+          <label class="field">
+            <span>Small print <em>along the bottom, optional</em></span>
+            <input type="text" data-bind="footer" maxlength="120" autocomplete="off" placeholder="Prices include tax">
+          </label>
+        </div>
+      </section>
+
+      <div class="section-title-row">
+        <h2>Products</h2>
+        <p>Tap a photo to change it. Plain numbers show as dollars. Fill in <strong>Sale</strong> to show a crossed-out price.</p>
+      </div>
+      <div id="sections" class="sections"></div>
+      <button type="button" class="btn add-sign" data-action="add-section">+ Add a category</button>
+      <input type="file" id="photo-input" accept="image/*" hidden>
+      <datalist id="badge-ideas"></datalist>
+
+      <section class="card" id="shows-card" aria-labelledby="shows-heading">
+        <h2 id="shows-heading">Saved shows</h2>
+        <p class="muted">Save this setup (headline, specials, products, prices and look) under a name, then load it for the next show. Product photos always stay up to date. Saved shows reach your other devices when you publish.</p>
+        <div class="connect-row">
+          <input type="text" id="show-name" maxlength="60" autocomplete="off" placeholder="Name, like Holiday Market" aria-label="Name for this show">
+          <button type="button" class="btn primary" id="save-show">Save</button>
+        </div>
+        <div id="shows-list" class="shows-list"></div>
+      </section>
+
+      <section class="card" aria-labelledby="pay-heading">
+        <h2 id="pay-heading">Payment and QR code</h2>
+        <div class="fields">
+          <div class="field">
+            <span id="pay-label">We accept <em>tap to turn on or off</em></span>
+            <div id="pay-methods" class="chip-row" role="group" aria-labelledby="pay-label"></div>
+          </div>
+          <label class="field">
+            <span>Payment note <em>optional</em></span>
+            <input type="text" data-bind="payments.note" maxlength="60" autocomplete="off" placeholder="Venmo @your-handle">
+          </label>
+          <label class="switch">
+            <input type="checkbox" data-bind="qr.show">
+            <span class="track" aria-hidden="true"></span>
+            <span>Show a QR code</span>
+          </label>
+          <label class="field">
+            <span>QR code goes to</span>
+            <input type="url" data-bind="qr.url" maxlength="300" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://raybarboozyextracts.com">
+          </label>
+          <label class="field">
+            <span>Under the QR code</span>
+            <input type="text" data-bind="qr.label" maxlength="40" autocomplete="off" placeholder="Shop online anytime">
+          </label>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="look-heading">
+        <h2 id="look-heading">Look</h2>
+        <div class="fields">
+          <div class="field">
+            <span id="theme-label">Colors <em>cream is easier to read in bright sun</em></span>
+            <div class="seg" role="radiogroup" aria-labelledby="theme-label" id="theme-choices"></div>
+          </div>
+          <div class="field">
+            <span id="layout-label">Layout</span>
+            <div class="seg" role="radiogroup" aria-labelledby="layout-label" id="layout-choices"></div>
+          </div>
+          <div class="field">
+            <span id="columns-label">Columns <em>Auto picks whatever makes the text biggest</em></span>
+            <div class="seg" role="radiogroup" aria-labelledby="columns-label" id="column-choices"></div>
+          </div>
+          <div class="field">
+            <span id="soldout-label">Sold out products</span>
+            <div class="seg" role="radiogroup" aria-labelledby="soldout-label">
+              <label><input type="radio" name="soldOut" value="show"><span>Mark them Sold out</span></label>
+              <label><input type="radio" name="soldOut" value="hide"><span>Hide them</span></label>
+            </div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" data-bind="settings.showPhotos">
+            <span class="track" aria-hidden="true"></span>
+            <span>Show photos</span>
+          </label>
+          <label class="switch">
+            <input type="checkbox" data-bind="settings.showDescriptions">
+            <span class="track" aria-hidden="true"></span>
+            <span>Show descriptions</span>
+          </label>
+          <label class="switch">
+            <input type="checkbox" data-bind="brand.showLogo">
+            <span class="track" aria-hidden="true"></span>
+            <span>Show the logo</span>
+          </label>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="brand-heading">
+        <h2 id="brand-heading">Business name</h2>
+        <div class="fields">
+          <label class="field">
+            <span>Name</span>
+            <input type="text" data-bind="brand.name" maxlength="30" autocomplete="off" placeholder="Ray Bar">
+          </label>
+          <label class="field">
+            <span>Under the name</span>
+            <input type="text" data-bind="brand.subtitle" maxlength="30" autocomplete="off" placeholder="Boozy Extracts">
+          </label>
+          <label class="field">
+            <span>Above the name</span>
+            <input type="text" data-bind="brand.tagline" maxlength="45" autocomplete="off" placeholder="Handcrafted Cocktail Essentials">
+          </label>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="backup-heading">
+        <h2 id="backup-heading">Backup</h2>
+        <p class="muted">Every published version is kept in the repo's history on GitHub. You can also save a copy as a file and load it back later.</p>
+        <div class="button-row">
+          <button type="button" class="btn" id="export">Export file</button>
+          <label class="btn file-btn">Import file<input type="file" id="import" accept="application/json,.json"></label>
+          <button type="button" class="btn danger-quiet" id="reset">Start over from the website lineup</button>
+        </div>
+      </section>
+
+      <details class="card tips">
+        <summary><h2>Setting up at a show</h2></summary>
+        <ol>
+          <li>Open the sign in Safari, tap <strong>Share</strong>, then <strong>Add to Home Screen</strong>. Launch it from that icon and it runs full screen with no browser bars.</li>
+          <li>Open it once while you have internet. After that it keeps working with no signal and shows the last prices it loaded. It picks up new prices whenever it gets a connection again.</li>
+          <li>Set <strong>Settings &gt; Display &amp; Brightness &gt; Auto-Lock</strong> to <strong>Never</strong> so the screen stays on, and keep the iPad plugged in.</li>
+          <li>Optional: turn on <strong>Settings &gt; Accessibility &gt; Guided Access</strong> to lock the iPad to the sign so customers can't leave it.</li>
+          <li>To change a price mid-show, edit on your phone and tap <strong>Publish</strong>. You can also press and hold anywhere on the sign, then tap <strong>Edit prices</strong>.</li>
+        </ol>
+      </details>
+    </div>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite">
+    <span id="toast-text"></span>
+    <button type="button" id="toast-undo">Undo</button>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/editor.js"></script>
+</body>
+</html>
