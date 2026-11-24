@@ -146,7 +146,7 @@
         },
         {
           "id": "zqcyig5b",
-          "name": "Chery Pepsi",
+          "name": "Cherry Pepsi",
           "description": "Sugary water with cherry",
           "price": "4",
           "available": true,
@@ -204,5 +204,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-11-23T23:39:50.102Z"
+  "updatedAt": "2026-11-24T01:42:43.207Z"
 }
