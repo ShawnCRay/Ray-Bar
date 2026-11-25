@@ -105,7 +105,7 @@
           "salePrice": "",
           "badge": "",
           "photo": "",
-          "available": false
+          "available": true
         }
       ]
     },
@@ -154,12 +154,12 @@
           "salePrice": "20",
           "badge": "",
           "photo": "img/products/bourbon-vanilla-extract.webp",
-          "available": true
+          "available": false
         }
       ]
     }
   ],
   "version": 1,
   "shows": [],
-  "updatedAt": "2026-11-25T00:46:13.510Z"
+  "updatedAt": "2026-11-25T00:47:03.970Z"
 }
