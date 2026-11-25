@@ -47,7 +47,7 @@
           "size": "2 oz",
           "description": "",
           "price": "20",
-          "salePrice": "",
+          "salePrice": "18",
           "badge": "",
           "photo": "img/products/cherry-vanilla-bitters.webp",
           "available": true
@@ -161,5 +161,5 @@
   ],
   "version": 1,
   "shows": [],
-  "updatedAt": "2026-11-25T00:47:03.970Z"
+  "updatedAt": "2026-11-25T00:49:42.829Z"
 }
