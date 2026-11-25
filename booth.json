@@ -12,7 +12,7 @@
   "deals": [
     {
       "id": "7dx1uxmc",
-      "text": "Mobile old fashioned kit $100",
+      "text": "Mobile Old Fashioned kit $100",
       "visible": true
     }
   ],
@@ -43,71 +43,149 @@
   "sections": [
     {
       "id": "bitters",
-      "title": "Bitters",
+      "title": "",
       "note": "Complex, balanced bitters that complement without overpowering.",
       "visible": true,
       "items": [
         {
-          "id": "cherry-vanilla-bitters",
-          "name": "Cherry Vanilla Bitters",
-          "size": "2 oz",
-          "description": "",
-          "price": "20",
-          "salePrice": "18",
-          "badge": "",
-          "photo": "img/products/cherry-vanilla-bitters.webp",
-          "available": true
-        },
-        {
-          "id": "hibiscus-sour",
-          "name": "Hibiscus Sour",
-          "size": "2 oz",
-          "description": "",
-          "price": "20",
-          "salePrice": "",
-          "badge": "",
-          "photo": "img/products/hibiscus-sour.webp",
-          "available": true
-        },
-        {
-          "id": "lavender-citrus",
-          "name": "Lavender Citrus",
-          "size": "2 oz",
-          "description": "",
-          "price": "20",
-          "salePrice": "",
-          "badge": "",
-          "photo": "img/products/lavender-citrus.webp",
-          "available": true
-        },
-        {
           "id": "spice-spice-baby",
-          "name": "Spice Spice Baby",
+          "name": "Bitters",
           "size": "2 oz",
           "description": "",
           "price": "20",
-          "salePrice": "",
+          "salePrice": "16",
           "badge": "",
           "photo": "img/products/spice-spice-baby.webp",
           "available": true
-        },
+        }
+      ]
+    },
+    {
+      "id": "v2v3p8k5",
+      "title": "",
+      "note": "",
+      "visible": true,
+      "items": [
         {
-          "id": "spiced-orange",
-          "name": "Spiced Orange",
-          "size": "2 oz",
+          "id": "exr8d9t1",
+          "name": "Infused Simple Syrups",
+          "size": "",
           "description": "",
           "price": "20",
           "salePrice": "",
           "badge": "",
-          "photo": "img/products/spiced-orange.webp",
+          "photo": "https://raw.githubusercontent.com/ShawnCRay/Ray-Bar/457fd7949a82b3f22b79cb10840f4acf82ff9d43/booth-photos/63wzcken.jpg",
           "available": true
-        },
+        }
+      ]
+    },
+    {
+      "id": "champagne-cubes",
+      "title": "",
+      "note": "Elevate your bubbles with our signature champagne cubes.",
+      "visible": true,
+      "items": [
         {
-          "id": "sxx4kgg5",
-          "name": "Cin-Ful Cinnamon",
-          "size": "2 oz",
+          "id": "lavender-citrus-cubes",
+          "name": "Champagne Cubes",
+          "size": "",
+          "description": "",
+          "price": "15",
+          "salePrice": "",
+          "badge": "",
+          "photo": "https://raw.githubusercontent.com/ShawnCRay/Ray-Bar/9f303e50aa74b68201a909c4f6816ab22c5745f3/booth-photos/z33vpatm.jpg",
+          "available": true
+        }
+      ]
+    },
+    {
+      "id": "tip14dmr",
+      "title": "",
+      "note": "",
+      "visible": true,
+      "items": [
+        {
+          "id": "qkxuynbx",
+          "name": "Cocktail Cubes",
+          "size": "",
           "description": "",
           "price": "20",
+          "salePrice": "",
+          "badge": "",
+          "photo": "https://raw.githubusercontent.com/ShawnCRay/Ray-Bar/5c79ed13d1c7b08b55339b6b340ad5a95bd4a63d/booth-photos/f577sfsh.jpg",
+          "available": true
+        }
+      ]
+    },
+    {
+      "id": "o4a1xudb",
+      "title": "",
+      "note": "",
+      "visible": true,
+      "items": [
+        {
+          "id": "k4xzkv44",
+          "name": "Spritzers",
+          "size": "",
+          "description": "",
+          "price": "8",
+          "salePrice": "",
+          "badge": "",
+          "photo": "https://raw.githubusercontent.com/ShawnCRay/Ray-Bar/e5074a656b06b21d8ff6e5ccb7b361ad8a9e95d9/booth-photos/v4g3n67v.jpg",
+          "available": true
+        }
+      ]
+    },
+    {
+      "id": "extracts",
+      "title": "",
+      "note": "Pure, handcrafted flavor extracts for cocktails and baking.",
+      "visible": true,
+      "items": [
+        {
+          "id": "bourbon-vanilla-extract",
+          "name": "All Extracts",
+          "size": "",
+          "description": "",
+          "price": "20",
+          "salePrice": "",
+          "badge": "",
+          "photo": "https://raw.githubusercontent.com/ShawnCRay/Ray-Bar/d09086f0f5a3d67756c38902d5f005dc133ce108/booth-photos/cv7ougx0.jpg",
+          "available": true
+        }
+      ]
+    },
+    {
+      "id": "mebfl0k0",
+      "title": "",
+      "note": "",
+      "visible": false,
+      "items": [
+        {
+          "id": "iia4byvr",
+          "name": "Mobile Old Fashioned Kit",
+          "size": "",
+          "description": "",
+          "price": "120",
+          "salePrice": "100",
+          "badge": "",
+          "photo": "",
+          "available": true
+        }
+      ]
+    },
+    {
+      "id": "tpra3va1",
+      "title": "",
+      "note": "",
+      "visible": true,
+      "items": [
+        {
+          "id": "432qjyxg",
+          "name": "Salts",
+          "size": "",
+          "description": "",
+          "price": "10",
           "salePrice": "",
           "badge": "",
           "photo": "",
@@ -116,56 +194,26 @@
       ]
     },
     {
-      "id": "champagne-cubes",
-      "title": "Champagne Cubes",
-      "note": "Elevate your bubbles with our signature champagne cubes.",
+      "id": "qa7o440q",
+      "title": "",
+      "note": "",
       "visible": true,
       "items": [
         {
-          "id": "lavender-citrus-cubes",
-          "name": "Lavender Citrus Cubes",
+          "id": "oxy8vs5l",
+          "name": "Napkins, Jiggers, Muddlers",
           "size": "",
           "description": "",
-          "price": "22",
+          "price": "5",
           "salePrice": "",
           "badge": "",
-          "photo": "img/products/lavender-citrus-cubes.webp",
+          "photo": "",
           "available": true
-        },
-        {
-          "id": "yuzu-blood-orange",
-          "name": "Yuzu & Blood Orange",
-          "size": "",
-          "description": "",
-          "price": "22",
-          "salePrice": "",
-          "badge": "",
-          "photo": "img/products/yuzu-blood-orange.webp",
-          "available": true
-        }
-      ]
-    },
-    {
-      "id": "extracts",
-      "title": "Extracts",
-      "note": "Pure, handcrafted flavor extracts for cocktails and baking.",
-      "visible": true,
-      "items": [
-        {
-          "id": "bourbon-vanilla-extract",
-          "name": "Bourbon Vanilla Extract",
-          "size": "",
-          "description": "",
-          "price": "24",
-          "salePrice": "20",
-          "badge": "",
-          "photo": "img/products/bourbon-vanilla-extract.webp",
-          "available": false
         }
       ]
     }
   ],
   "version": 1,
   "shows": [],
-  "updatedAt": "2026-11-25T03:58:04.723Z"
+  "updatedAt": "2026-11-25T18:38:41.503Z"
 }
