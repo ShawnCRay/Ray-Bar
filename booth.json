@@ -1,0 +1,165 @@
+{
+  "brand": {
+    "name": "Ray Bar",
+    "subtitle": "Boozy Extracts",
+    "tagline": "Handcrafted Cocktail Essentials",
+    "showLogo": true
+  },
+  "show": {
+    "title": "Elevate Every Pour.",
+    "subtitle": "From the Ray-Bar to your bar."
+  },
+  "deals": [],
+  "payments": {
+    "methods": [
+      "Cash",
+      "Card",
+      "Apple Pay",
+      "Venmo",
+      "Zelle"
+    ],
+    "note": ""
+  },
+  "qr": {
+    "show": true,
+    "url": "https://raybarboozyextracts.com",
+    "label": "Shop online anytime"
+  },
+  "footer": "",
+  "settings": {
+    "theme": "espresso",
+    "layout": "cards",
+    "columns": "auto",
+    "showPhotos": true,
+    "showDescriptions": true,
+    "soldOut": "show"
+  },
+  "sections": [
+    {
+      "id": "bitters",
+      "title": "Bitters",
+      "note": "Complex, balanced bitters that complement without overpowering.",
+      "visible": true,
+      "items": [
+        {
+          "id": "cherry-vanilla-bitters",
+          "name": "Cherry Vanilla Bitters",
+          "size": "2 oz",
+          "description": "",
+          "price": "20",
+          "salePrice": "",
+          "badge": "",
+          "photo": "img/products/cherry-vanilla-bitters.webp",
+          "available": true
+        },
+        {
+          "id": "hibiscus-sour",
+          "name": "Hibiscus Sour",
+          "size": "2 oz",
+          "description": "",
+          "price": "20",
+          "salePrice": "",
+          "badge": "",
+          "photo": "img/products/hibiscus-sour.webp",
+          "available": true
+        },
+        {
+          "id": "lavender-citrus",
+          "name": "Lavender Citrus",
+          "size": "2 oz",
+          "description": "",
+          "price": "20",
+          "salePrice": "",
+          "badge": "",
+          "photo": "img/products/lavender-citrus.webp",
+          "available": true
+        },
+        {
+          "id": "spice-spice-baby",
+          "name": "Spice Spice Baby",
+          "size": "2 oz",
+          "description": "",
+          "price": "20",
+          "salePrice": "",
+          "badge": "",
+          "photo": "img/products/spice-spice-baby.webp",
+          "available": true
+        },
+        {
+          "id": "spiced-orange",
+          "name": "Spiced Orange",
+          "size": "2 oz",
+          "description": "",
+          "price": "20",
+          "salePrice": "",
+          "badge": "",
+          "photo": "img/products/spiced-orange.webp",
+          "available": true
+        },
+        {
+          "id": "sxx4kgg5",
+          "name": "Cin-Ful Cinnamon",
+          "size": "2 oz",
+          "description": "",
+          "price": "20",
+          "salePrice": "",
+          "badge": "",
+          "photo": "",
+          "available": true
+        }
+      ]
+    },
+    {
+      "id": "champagne-cubes",
+      "title": "Champagne Cubes",
+      "note": "Elevate your bubbles with our signature champagne cubes.",
+      "visible": true,
+      "items": [
+        {
+          "id": "lavender-citrus-cubes",
+          "name": "Lavender Citrus Cubes",
+          "size": "",
+          "description": "",
+          "price": "22",
+          "salePrice": "",
+          "badge": "",
+          "photo": "img/products/lavender-citrus-cubes.webp",
+          "available": true
+        },
+        {
+          "id": "yuzu-blood-orange",
+          "name": "Yuzu & Blood Orange",
+          "size": "",
+          "description": "",
+          "price": "22",
+          "salePrice": "",
+          "badge": "",
+          "photo": "img/products/yuzu-blood-orange.webp",
+          "available": true
+        }
+      ]
+    },
+    {
+      "id": "extracts",
+      "title": "Extracts",
+      "note": "Pure, handcrafted flavor extracts for cocktails and baking.",
+      "visible": true,
+      "items": [
+        {
+          "id": "bourbon-vanilla-extract",
+          "name": "Bourbon Vanilla Extract",
+          "size": "",
+          "description": "",
+          "price": "24",
+          "salePrice": "20",
+          "badge": "",
+          "photo": "img/products/bourbon-vanilla-extract.webp",
+          "available": true
+        }
+      ]
+    }
+  ],
+  "version": 1,
+  "shows": [],
+  "updatedAt": "2026-11-25T00:46:05.087Z"
+}
