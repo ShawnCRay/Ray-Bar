@@ -9,7 +9,13 @@
     "title": "Elevate Every Pour.",
     "subtitle": "From the Ray-Bar to your bar."
   },
-  "deals": [],
+  "deals": [
+    {
+      "id": "7dx1uxmc",
+      "text": "Mobile old fashioned kit $100",
+      "visible": true
+    }
+  ],
   "payments": {
     "methods": [
       "Cash",
@@ -161,5 +167,5 @@
   ],
   "version": 1,
   "shows": [],
-  "updatedAt": "2026-11-25T00:49:42.829Z"
+  "updatedAt": "2026-11-25T03:58:04.723Z"
 }
