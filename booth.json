@@ -105,7 +105,7 @@
           "salePrice": "",
           "badge": "",
           "photo": "",
-          "available": true
+          "available": false
         }
       ]
     },
@@ -161,5 +161,5 @@
   ],
   "version": 1,
   "shows": [],
-  "updatedAt": "2026-11-25T00:46:05.087Z"
+  "updatedAt": "2026-11-25T00:46:13.510Z"
 }
