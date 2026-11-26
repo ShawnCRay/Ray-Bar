@@ -72,7 +72,7 @@
       "items": [
         {
           "id": "gilpj498",
-          "name": "Four Roses",
+          "name": "Milan & Greene",
           "description": "Mostly Whiskey",
           "price": "",
           "available": true,
@@ -146,7 +146,7 @@
         },
         {
           "id": "zqcyig5b",
-          "name": "Cherry Pepsi",
+          "name": "Chery Pepsi",
           "description": "Sugary water with cherry",
           "price": "4",
           "available": true,
@@ -202,32 +202,7 @@
           "featured": false
         }
       ]
-    },
-    {
-      "id": "058zk70f",
-      "title": "S.p.e.c.i.a.l.s",
-      "note": "help us get this... stuff out of the bar",
-      "style": "wood",
-      "visible": true,
-      "items": [
-        {
-          "id": "cfsqd7ye",
-          "name": "Pink Whitney",
-          "description": "",
-          "price": "",
-          "available": true,
-          "featured": false
-        },
-        {
-          "id": "sijdvb5r",
-          "name": "Fireball",
-          "description": "",
-          "price": "",
-          "available": true,
-          "featured": false
-        }
-      ]
     }
   ],
-  "updatedAt": "2026-11-24T03:48:09.819Z"
+  "updatedAt": "2026-11-26T17:52:50.097Z"
 }
