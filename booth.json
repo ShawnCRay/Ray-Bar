@@ -144,7 +144,7 @@
       "items": [
         {
           "id": "bourbon-vanilla-extract",
-          "name": "All Extracts",
+          "name": "Extracts",
           "size": "",
           "description": "",
           "price": "20",
@@ -215,5 +215,5 @@
   ],
   "version": 1,
   "shows": [],
-  "updatedAt": "2026-11-26T01:35:41.401Z"
+  "updatedAt": "2026-11-26T01:39:14.395Z"
 }
