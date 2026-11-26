@@ -155,7 +155,7 @@
         {
           "id": "ms7nrh3v",
           "name": "Coke",
-          "description": "Bitter sugary water",
+          "description": "Better sugary water",
           "price": "4",
           "available": true,
           "featured": false
@@ -204,5 +204,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-11-26T17:54:49.253Z"
+  "updatedAt": "2026-11-26T17:56:08.863Z"
 }
