@@ -109,7 +109,7 @@
           "name": "Cocktail Cubes",
           "size": "",
           "description": "",
-          "price": "20",
+          "price": "15",
           "salePrice": "",
           "badge": "",
           "photo": "https://raw.githubusercontent.com/ShawnCRay/Ray-Bar/5c79ed13d1c7b08b55339b6b340ad5a95bd4a63d/booth-photos/f577sfsh.jpg",
@@ -215,5 +215,5 @@
   ],
   "version": 1,
   "shows": [],
-  "updatedAt": "2026-11-25T18:38:41.503Z"
+  "updatedAt": "2026-11-26T01:35:41.401Z"
 }
